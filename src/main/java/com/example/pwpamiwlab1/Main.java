@@ -1,5 +1,6 @@
 package com.example.pwpamiwlab1;
 
+import com.google.inject.Guice;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +30,14 @@ public class Main extends Application {
     private Scene createScene() throws IOException {
         final var appViewResource = Main.class.getResource(APP_VIEW_FXML);
         final var fxmlLoader = new FXMLLoader(appViewResource);
+        configureDependencyInjection(fxmlLoader);
         return new Scene(fxmlLoader.load(), APP_WIDTH, APP_HEIGHT);
+    }
+
+    private void configureDependencyInjection(FXMLLoader fxmlLoader) {
+        final var appModule = new AppModule();
+        final var injector = Guice.createInjector(appModule);
+        fxmlLoader.setControllerFactory(injector::getInstance);
     }
 
 }

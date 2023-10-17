@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0795228e-b708-45f5-b72b-3215e7cc0043" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/AccuWeatherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/service/internal/AccuWeatherService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/AppViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/WeatherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pwpamiwlab1/service/WeatherService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pwpamiwlab1/app-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pwpamiwlab1/app-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +73,7 @@
       <module name="pw-pamiw-lab1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.pwpamiwlab1.*" />
+          <option name="PATTERN" value="com.example.pwpamiwlab1.service.internal.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -92,6 +99,7 @@
       <workItem from="1697018201759" duration="1445000" />
       <workItem from="1697280424432" duration="817000" />
       <workItem from="1697454307570" duration="617000" />
+      <workItem from="1697543605698" duration="3838000" />
     </task>
     <servers />
   </component>

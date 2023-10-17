@@ -1,5 +1,8 @@
-package com.example.pwpamiwlab1;
+package com.example.pwpamiwlab1.service.internal;
 
+import com.example.pwpamiwlab1.model.Location;
+import com.example.pwpamiwlab1.model.Temperature;
+import com.example.pwpamiwlab1.service.WeatherService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,61 +20,65 @@ public class AccuWeatherService implements WeatherService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String getLocationKeyByCity(String city) {
+    public Location getLocationByCity(String city) {
         final var url = BASE_URL + "/locations/v1/cities/autocomplete?apikey=" + API_KEY + "&q=" + city + "&language=" + LANGUAGE;
         final var json = getJsonResponseFromApi(url);
-        return json.get(0).get("Key").asText();
+        final var locationKey = json.get(0).get("Key").asText();
+        return new Location(locationKey);
     }
 
     @Override
-    public String getTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/currentconditions/v1/" + locationKey + "?apikey=" + API_KEY + "&language=" + LANGUAGE;
+    public Temperature getTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/currentconditions/v1/" + location.key() + "?apikey=" + API_KEY + "&language=" + LANGUAGE;
         final var json = getJsonResponseFromApi(url);
-        return json.get(0).get("Temperature").get("Metric").get("Value").asText();
+        final var value = json.get(0).get("Temperature").get("Metric").get("Value").asDouble();
+        return new Temperature(value);
     }
 
     @Override
-    public String getPastTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/currentconditions/v1/" + locationKey + "/historical?apikey=" + API_KEY + "&language=" + LANGUAGE;
+    public Temperature getPastTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/currentconditions/v1/" + location.key() + "/historical?apikey=" + API_KEY + "&language=" + LANGUAGE;
         final var json = getJsonResponseFromApi(url);
-        return json.get(5).get("Temperature").get("Metric").get("Value").asText();
+        final var value = json.get(5).get("Temperature").get("Metric").get("Value").asDouble();
+        return new Temperature(value);
     }
 
     @Override
-    public String getPastDayTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/currentconditions/v1/" + locationKey + "/historical/24?apikey=" + API_KEY + "&language=" + LANGUAGE;
+    public Temperature getPastDayTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/currentconditions/v1/" + location.key() + "/historical/24?apikey=" + API_KEY + "&language=" + LANGUAGE;
         final var json = getJsonResponseFromApi(url);
-        return json.get(23).get("Temperature").get("Metric").get("Value").asText();
+        final var value = json.get(23).get("Temperature").get("Metric").get("Value").asDouble();
+        return new Temperature(value);
     }
 
     @Override
-    public String getNext12HoursTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/forecasts/v1/hourly/12hour/" + locationKey + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
+    public Temperature getNext12HoursTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/forecasts/v1/hourly/12hour/" + location.key() + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
         final var json = getJsonResponseFromApi(url);
-        return json.get(11).get("Temperature").get("Value").asText();
+        final var value = json.get(11).get("Temperature").get("Value").asDouble();
+        return new Temperature(value);
     }
 
     @Override
-    public String getNextDayTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/forecasts/v1/daily/1day/" + locationKey + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
+    public Temperature getNextDayTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/forecasts/v1/daily/1day/" + location.key() + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
         final var json = getJsonResponseFromApi(url);
         final var temperatureJson = json.get("DailyForecasts").get(0).get("Temperature");
         final var minimumTemperature = temperatureJson.get("Minimum").get("Value").asDouble();
         final var maximumTemperature = temperatureJson.get("Maximum").get("Value").asDouble();
         final var averageTemperature = (minimumTemperature + maximumTemperature) / 2;
-        return String.valueOf(averageTemperature);
+        return new Temperature(averageTemperature);
     }
 
     @Override
-    public String getNext5DaysTemperatureByLocationKey(String locationKey) {
-        final var url = BASE_URL + "/forecasts/v1/daily/5day/" + locationKey + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
+    public Temperature getNext5DaysTemperatureByLocation(Location location) {
+        final var url = BASE_URL + "/forecasts/v1/daily/5day/" + location.key() + "?apikey=" + API_KEY + "&language=" + LANGUAGE + "&metric=true";
         final var json = getJsonResponseFromApi(url);
-        System.out.println(json);
         final var temperatureJson = json.get("DailyForecasts").get(4).get("Temperature");
         final var minimumTemperature = temperatureJson.get("Minimum").get("Value").asDouble();
         final var maximumTemperature = temperatureJson.get("Maximum").get("Value").asDouble();
         final var averageTemperature = (minimumTemperature + maximumTemperature) / 2;
-        return String.valueOf(averageTemperature);
+        return new Temperature(averageTemperature);
     }
 
     private JsonNode getJsonResponseFromApi(String url) {
